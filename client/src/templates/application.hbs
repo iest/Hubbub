@@ -1,0 +1,63 @@
+<header>
+    <div class="wrapper">
+        {{#linkTo 'index' class='logo text-left'}}
+            <img src="/images/innovantage_logo_white.png">
+        {{/linkTo}}
+
+        {{#if controllers.login.isLoggedIn}}
+            <div class="nav--wide">
+                <ul>
+                    <li>
+                        {{#linkTo 'index'}}<i class="icon-search"> </i><span>Search</span>{{/linkTo}}
+                    </li>
+                    <li>
+                        {{#linkTo 'favourites'}}<i class="icon-star-empty"> </i><span>Favourites</span>{{/linkTo}}
+                    </li>
+                    <li>
+                        {{#linkTo 'savedSearches'}}<i class="icon-save"> </i><span>Saved searches</span>{{/linkTo}}
+                    </li>
+                </ul>
+            </div>
+            <div class="nav--narrow">{{view Insight.UserDropdownView}}</div>
+        {{/if}}
+    </div>
+    <!--[if lt IE 9]>
+        <div class="ie-warning">
+        You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
+        </div>
+    <![endif]-->
+</header>
+
+<div class="container">
+    {{outlet}}
+
+    <footer>
+        {{#if controllers.login.isLoggedIn}}
+            <div class="grid8 text-center">
+                {{#if controllers.login.isLinkedIn}}
+                    <button {{action 'linkOut'}} class=' linkedin button--inverse button--small'>
+                        Logout of LinkedIn
+                    </button>
+                {{else}}
+                    <button {{action 'linkIn'}} class=' linkedin button--inverse button--small'>
+                        Login to LinkedIn
+                    </button>
+                {{/if}}
+            </div>
+        {{/if}}
+        <div class="grid8 text-center">Copyright &copy; Innovantage 2013</div>
+    </footer>
+</div>
+
+{{#if controllers.status.wasAnError}}
+    <div class="app-error__container">
+        <div class="app-error">
+            <h1>Oops!</h1>
+            <h2>{{controllers.status.error}}</h2>
+            <h3>Please make sure any adblocking software is turned off, or whitelist this domain.</h3>
+            <div class="app-error__message">
+                Please try refreshing the page, or contact <a href="mailto:support@innovantage.co.uk">support@innovantage.co.uk </a>if you continue to have this issue.
+            </div>
+        </div>
+    </div>
+{{/if}}
