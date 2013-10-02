@@ -28,6 +28,7 @@ module.exports = function(grunt) {
           'client/lib/jquery-2.0.3.min.js',
           'client/lib/handlebars-1.0.0.js',
           'client/lib/ember.js',
+          'client/lib/ember-data.js',
           'client/lib/jquery.transit.js',
           'client/lib/jquery.cookie.js',
           'client/lib/spin.min.js',

@@ -1,5 +1,16 @@
+<h1>Hubbub</h1>
+{{input}}
+<button {{action getIssues}}>Test!</button>
+
 <ul>
     {{#each model}}
-        <li>{{this.title}}</li>
+        <li>
+            {{#link-to 'issue' this}}
+                {{title}}
+            {{/link-to}}
+        </li>
     {{/each}}
 </ul>
+
+{{outlet}}
+

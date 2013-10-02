@@ -51,14 +51,39 @@ var github = new GitHubApi({
 
 app.get('/', routes.index);
 
+// app.get('/:user/:repo', function(req, res) {
+
+//   github.authenticate({
+//       type: "oauth",
+//       token: "c4d8988f8af0ed16c2bc25d97f8418305220bcd2"
+//   });
+
+//   github.issues.repoIssues({
+//     user: req.params.user,
+//     repo: req.params.repo
+//   }, function(err, gRes) {
+//     res.send({
+//       'issues': gRes
+//     });
+//   });
+
+// });
+
 app.get('/api/issues', function(req, res) {
 
-  var closedIssues = github.issues.repoIssues({
-    user: 'iest',
-    repo: 'emRuler',
-    state: 'closed'
-  }, function(err, gRes){
-    res.send(gRes);
+  // github.authenticate({
+  //   type: "oauth",
+  //   token: "c4d8988f8af0ed16c2bc25d97f8418305220bcd2"
+  // });
+
+  github.issues.repoIssues({
+    user: req.query.user,
+    repo: req.query.repo,
+    state: req.query.state
+  }, function(err, gRes) {
+    res.send({
+      'issues': gRes
+    });
   });
 
 });

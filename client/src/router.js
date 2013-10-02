@@ -1,20 +1,11 @@
-var start = new Date().getTime();
-
 App = Ember.Application.create({
   // LOG_TRANSITIONS: true
 });
 
 App.Router.map(function() {
-  // Routes here
+  this.route('issue', { path: '/:id'} );
 });
 
-App.ApplicationRoute = Ember.Route.extend({
-
-  model: function(){
-    return $.get('api/issues').then(function(res){
-      console.log(new Date().getTime() - start);
-      return res;
-    });
-  }
-
+App.ApplicationAdapter = DS.RESTAdapter.extend({
+  namespace: 'api'
 });
