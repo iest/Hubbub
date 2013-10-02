@@ -1,4 +1,4 @@
-var start = new Date().getTime();
+/*! Hubbub - v0.0.1 - 2013-10-02 */var start = new Date().getTime();
 
 App = Ember.Application.create({
   // LOG_TRANSITIONS: true

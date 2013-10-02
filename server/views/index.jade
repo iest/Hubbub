@@ -1,5 +1,14 @@
-extends layout
+doctype 5
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
 
-block content
-  h1= title
-  p Welcome to #{title}
+    script(src='javascripts/libs.js')
+    script(src='javascripts/templates.js')
+    script(src='javascripts/app.js')
+
+    script(src='//localhost:35729/livereload.js')
+
+  body
+    h1 Express

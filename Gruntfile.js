@@ -4,8 +4,6 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    // clean: ["../server/public/*"],
-
     concat: {
       options: {
         stripBanners: true,
@@ -13,67 +11,41 @@ module.exports = function(grunt) {
       },
       app: {
         src: [
-          'src/app/helpers/*.js',
-          'src/app/router.js',
-          'src/app/mixins/*.js',
-          'src/app/routes/*.js',
-          'src/app/adapters/*.js',
-          'src/app/controllers/*.js',
-          'src/app/models/*.js',
-          'src/app/components/*.js',
-          'src/app/views/*.js'
+          'client/src/helpers/*.js',
+          'client/src/router.js',
+          'client/src/mixins/*.js',
+          'client/src/routes/*.js',
+          'client/src/adapters/*.js',
+          'client/src/controllers/*.js',
+          'client/src/models/*.js',
+          'client/src/components/*.js',
+          'client/src/views/*.js'
         ],
-        dest: '../server/public/js/app.js'
+        dest: 'server/public/javascripts/app.js'
       },
       lib: {
         src: [
-          'src/lib/jquery-1.10.2.min.js',
-          'src/lib/handlebars-1.0.0.js',
-          'src/lib/ember.js',
-          'src/lib/jquery.transit.js',
-          'src/lib/jquery.cookie.js',
-          'src/lib/spin.min.js',
-          'src/lib/moment.js'
+          'client/lib/jquery-2.0.3.min.js',
+          'client/lib/handlebars-1.0.0.js',
+          'client/lib/ember.js',
+          'client/lib/jquery.transit.js',
+          'client/lib/jquery.cookie.js',
+          'client/lib/spin.min.js',
+          'client/lib/moment.js'
         ],
-        dest: '../server/public/js/libs.js'
+        dest: 'server/public/javascripts/libs.js'
       },
       prodLibs: {
         src: [
-          'src/lib/jquery-1.10.2.min.js',
-          'src/lib/handlebars-1.0.0.js',
-          'src/lib/ember.prod.js',
-          'src/lib/jquery.transit.js',
-          'src/lib/jquery.cookie.js',
-          'src/lib/spin.min.js',
-          'src/lib/moment.js'
+          'client/lib/jquery-2.0.3.min.js',
+          'client/lib/handlebars-1.0.0.js',
+          'client/lib/ember.prod.js',
+          'client/lib/jquery.transit.js',
+          'client/lib/jquery.cookie.js',
+          'client/lib/spin.min.js',
+          'client/lib/moment.js'
         ],
-        dest: '../server/public/js/libs.js'
-      }
-    },
-
-    copy: {
-      main: {
-        files: [{
-            expand: true,
-            cwd: 'src/fonts/',
-            src: ['**'],
-            dest: '../server/public/fonts/'
-          }, // includes files in path and its subdirs
-          {
-            expand: true,
-            cwd: 'src/images/',
-            src: ['**'],
-            dest: '../server/public/images/'
-          }
-        ]
-      },
-      ieShims: {
-        files: [{
-          expand: true,
-          cwd: 'src/lib/',
-          src: ['html5shiv.js'],
-          dest: '../server/public/js/'
-        }]
+        dest: 'server/public/javascripts/libs.js'
       }
     },
 
@@ -84,77 +56,44 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       App: {
-        src: '../server/public/js/app.js',
-        dest: '../server/public/js/app.<%= cachebuster %>.min.js'
+        src: 'server/public/javascripts/app.js',
+        dest: 'server/public/javascripts/app.<%= cachebuster %>.min.js'
       },
       libs: {
-        src: '../server/public/js/libs.js',
-        dest: '../server/public/js/libs.<%= cachebuster %>.min.js'
+        src: 'server/public/javascripts/libs.js',
+        dest: 'server/public/javascripts/libs.<%= cachebuster %>.min.js'
       },
       templates: {
-        src: '../server/public/js/templates.js',
-        dest: '../server/public/js/templates.<%= cachebuster %>.min.js'
+        src: 'server/public/javascripts/templates.js',
+        dest: 'server/public/javascripts/templates.<%= cachebuster %>.min.js'
       }
     },
 
     stylus: {
       compile: {
         files: {
-          '../server/public/css/insight2_<%= cachebuster %>.css': 'src/styles/insight2.styl',
-          '../server/public/css/insight2_ie_<%= cachebuster %>.css': 'src/styles/insight2_ie.styl'
-        }
-      }
-    },
-
-    jade: {
-      dev: {
-        options: {
-          pretty: true,
-          data: {
-            debug: true,
-            // This needs to be the same variable that goes in App & libs
-            cachebuster: '<%= cachebuster %>'
-          }
-        },
-        files: {
-          "../server/public/index.html": "src/index.jade"
-        }
-      },
-      prod: {
-        options: {
-          data: {
-            debug: false,
-            // This needs to be the same variable that goes in App & libs
-            cachebuster: '<%= cachebuster %>'
-          }
-        },
-        files: {
-          "../server/public/index.html": "src/index.jade"
+          'server/public/stylesheets/style.css':'client/styles/style.styl'
         }
       }
     },
 
     watch: {
-      copyables: {
-        files: ['src/images/*', 'src/fonts/*'],
-        tasks: ['copy']
-      },
       libScripts: {
-        files: ['src/js/lib/*.js'],
+        files: ['client/lib/*.js'],
         tasks: ['concat:lib'],
         options: {
           livereload: true
         }
       },
       appScripts: {
-        files: ['src/app/**/*.js'],
+        files: ['client/src/**/*.js'],
         tasks: ['concat:app'],
         options: {
           livereload: true
         }
       },
       stylus: {
-        files: ['src/styles/*.styl'],
+        files: ['client/src/styles/*.styl'],
         tasks: ['stylus'],
         options: {
           paths: ["src/styles/"],
@@ -163,20 +102,13 @@ module.exports = function(grunt) {
         }
       },
       stylesForReload: {
-        files: ['../server/public/css/*.css'],
-        options: {
-          livereload: true
-        }
-      },
-      jade: {
-        files: ['src/*.jade'],
-        tasks: ['jade:dev'],
+        files: ['server/public/css/*.css'],
         options: {
           livereload: true
         }
       },
       hbs: {
-        files: ['src/templates/**/*.hbs'],
+        files: ['client/templates/**/*.hbs'],
         tasks: ['emberTemplates'],
         options: {
           livereload: true
@@ -187,10 +119,10 @@ module.exports = function(grunt) {
     emberTemplates: {
       compile: {
         options: {
-          templateBasePath: /src\/templates\//
+          templateBasePath: /client\/templates\//
         },
         files: {
-          "../server/public/js/templates.js": ["src/templates/**/*.hbs"]
+          "server/public/javascripts/templates.js": "client/templates/**/*.hbs"
         }
       }
     },
@@ -199,7 +131,7 @@ module.exports = function(grunt) {
       options: {
         force: true
       },
-      files: ['../server/public/']
+      files: ['server/public/']
     }
 
 
@@ -210,17 +142,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-contrib-stylus');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-ember-templates');
 
 
 
-  grunt.registerTask('default', ['copy', 'concat:app', 'concat:lib', 'jade:dev', 'emberTemplates', 'stylus']);
-
-  grunt.registerTask('prod', ['clean', 'copy', 'concat:app', 'concat:prodLibs','emberTemplates', 'uglify', 'jade:prod', 'stylus']);
-
+  grunt.registerTask('default', ['concat:app', 'concat:lib', 'emberTemplates', 'stylus']);
 
 };
