@@ -24,4 +24,8 @@ As long as latency between the client and the server was minimal, it should have
 ## TODO
 - Figure out github API
 - ~~Try basic issue fetching with the github node library~~
-- Build ember-data compliant routes in server
+- ~~Build basic ember-data compliant routes in server~~
+- Decide on basic UI & build
+- Get oauth working properly
+- Edit an issue from the app
+- Add showdown for client-side markdown

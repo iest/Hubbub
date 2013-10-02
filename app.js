@@ -73,7 +73,7 @@ app.get('/api/issues', function(req, res) {
 
   // github.authenticate({
   //   type: "oauth",
-  //   token: "c4d8988f8af0ed16c2bc25d97f8418305220bcd2"
+  //   token: "1024b404ef0d23b03647046337a58b5356549338"
   // });
 
   github.issues.repoIssues({
@@ -84,6 +84,7 @@ app.get('/api/issues', function(req, res) {
     res.send({
       'issues': gRes
     });
+    console.log(err);
   });
 
 });

@@ -6,13 +6,19 @@ App.ApplicationController = Ember.Controller.extend({
 
   user: '',
   repo: '',
-  state: 'open',
+  state: 'closed',
 
   actions: {
     getIssues: function() {
 
-      this.get('store').findQuery('issues', {
+      var _this = this;
 
+      this.get('store').findQuery('issue', {
+        user: _this.get('user'),
+        repo: _this.get('repo'),
+        state: _this.get('state')
+      }).then(function(issues){
+        _this.set('model', issues);
       });
 
     }
