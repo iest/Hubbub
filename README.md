@@ -22,5 +22,6 @@ As long as latency between the client and the server was minimal, it should have
 
 
 ## TODO
-- [ ] Figure out github API
-- [ ] Try basic issue fetching with the github node library
+- Figure out github API
+- ~~Try basic issue fetching with the github node library~~
+- Build ember-data compliant routes in server
