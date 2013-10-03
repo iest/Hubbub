@@ -25,6 +25,7 @@ As long as latency between the client and the server was minimal, it should have
 - Figure out github API
 - ~~Try basic issue fetching with the github node library~~
 - ~~Build basic ember-data compliant routes in server~~
+- Test single-issue fetch `getRepoIssue`
 - Decide on basic UI & build
 - Get oauth working properly
 - Edit an issue from the app

@@ -1,4 +1,4 @@
-/*! Hubbub - v0.0.1 - 2013-10-02 */App = Ember.Application.create({
+/*! Hubbub - v0.0.1 - 2013-10-03 */App = Ember.Application.create({
   // LOG_TRANSITIONS: true
 });
 
