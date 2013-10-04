@@ -1,4 +1,4 @@
-/*! Hubbub - v0.0.1 - 2013-10-03 */App = Ember.Application.create({
+/*! Hubbub - v0.0.1 - 2013-10-04 */App = Ember.Application.create({
   // LOG_TRANSITIONS: true
 });
 
@@ -33,6 +33,11 @@ App.ApplicationController = Ember.Controller.extend({
       });
 
     }
+  }
+});
+App.RepoRoute = Ember.Route.extend({
+  model: function(stuff) {
+    return stuff;
   }
 });
 App.Issue = DS.Model.extend({

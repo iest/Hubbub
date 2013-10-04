@@ -16,6 +16,8 @@
     "grunt-contrib-watch": "~0.4.3",
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-contrib-concat": "~0.2.0",
-    "grunt-ember-templates": "~0.4.13"
+    "grunt-ember-templates": "~0.4.13",
+    "sys": "0.0.1",
+    "util": "~0.4.9"
   }
 }
