@@ -1,9 +1,15 @@
 App = Ember.Application.create({
-  // LOG_TRANSITIONS: true
+  LOG_TRANSITIONS: true
 });
 
 App.Router.map(function() {
-  this.route('issue', { path: '/:id'} );
+  this.resource('user', {
+    path: '/:login'
+  }, function() {
+    this.resource('issues', {
+      path: '/:name'
+    });
+  });
 });
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({

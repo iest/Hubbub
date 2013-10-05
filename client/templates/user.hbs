@@ -1,0 +1,10 @@
+{{#link-to 'index'}}Home{{/link-to}}
+<ul>
+    {{#each model}}
+        <li>
+            {{#link-to 'issues' controller.user this.name}}
+                {{name}}
+            {{/link-to}}
+        </li>
+    {{/each}}
+</ul>

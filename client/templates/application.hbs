@@ -1,21 +1,2 @@
 <h1>Hubbub</h1>
-<label>User</label>
-{{input value=user}}
-
-<label>Repo</label>
-{{input value=repo}}
-
-<button {{action getIssues}}>Test!</button>
-
-<ul>
-    {{#each model}}
-        <li>
-            {{#link-to 'issue' this}}
-                {{title}}
-            {{/link-to}}
-        </li>
-    {{/each}}
-</ul>
-
-{{outlet}}
-
+{{outlet main}}

@@ -2,13 +2,12 @@
  * Module dependencies.
  */
 
-var express = require('express');
-routes = require('./server/routes'),
-http = require('http'),
-path = require('path'),
-config = require('./server/config'),
-oauth = require('oauth'),
-sys = require('util');
+var express = require('express'),
+  http = require('http'),
+  path = require('path'),
+  config = require('./server/config'),
+  oauth = require('oauth'),
+  sys = require('util');
 
 var app = express();
 
@@ -39,10 +38,6 @@ app.configure(function() {
 });
 
 
-
-// app.get('/', routes.index);
-
-
 /**
   Github Library
 */
@@ -56,7 +51,6 @@ var github = new GitHubApi({
 
 var _githubKey = config.GITHUB_CLIENT_ID,
   _githubSecret = config.GITHUB_SECRET;
-console.log("_githubKey: %s and _githubSecret %s", _githubKey, _githubSecret);
 
 function consumer2() {
   return new oauth.OAuth2(
@@ -69,28 +63,30 @@ function consumer2() {
   );
 }
 
-var accessToken = '';
-
 app.get('/', function(req, res) {
 
-  if (!accessToken) {
-    res.redirect(consumer2()
-      .getAuthorizeUrl({
-        'scope': 'repo',
-        'redirect_uri': 'http://localhost:3000/auth/github-callback'
-      }));
-  } else {
-    github.issues.repoIssues({
-      user: 'mdrn',
-      repo: 'holistic'
-    }, function(err, gRes) {
-      res.send({
-        'issues': gRes
+  if (!req.session.oauth2AccessToken) {
+    res.redirect('/auth');
+  } else if (!app.locals.user) {
+    github.user.get({}, function(err, user) {
+      app.locals.user = user;
+      res.render('index', {
+        user: user
       });
     });
+  } else {
+    res.render('index', {
+      user: app.locals.user
+    });
   }
+});
 
-
+app.get('/auth', function(req, res) {
+  res.redirect(consumer2()
+    .getAuthorizeUrl({
+      'scope': 'repo',
+      'redirect_uri': 'http://localhost:3000/auth/github-callback'
+    }));
 });
 
 app.get('/auth/github-callback', function(req, res) {
@@ -104,65 +100,69 @@ app.get('/auth/github-callback', function(req, res) {
           res.send("Error getting OAuth access token : " + sys.inspect(error), 500);
         } else {
 
-          accessToken = access_token;
+          req.session.oauth2AccessToken = access_token;
 
           // authenticate github API
           github.authenticate({
             type: "oauth",
-            token: accessToken
+            token: req.session.oauth2AccessToken
+          });
+
+          github.user.get({}, function(err, user) {
+            app.locals({
+              user: user
+            });
           });
 
           res.redirect('/');
-
-          res.end();
         }
       }
   );
 });
 
+app.get('/api/user', function(req, res) {
+  github.user.get({}, function(err, user) {
+    res.send(user);
+  });
+});
 
-/**
-  Routes
-*/
+app.get('/api/repos', function(req, res) {
 
+  github.repos.getFromOrg({
+    org: req.query.user
+  }, function(err, oRes) {
 
-// app.get('/:user/:repo', function(req, res) {
+    // If we get a response, we dealing with an org
+    if (oRes) {
+      res.send({'repos': oRes});
+    } else {
+      console.log(err);
+      // else we're dealing with a user
+      github.repos.getFromUser({
+        user: req.query.user
+      }, function(err, uRes) {
+        if (uRes) {
+          res.send({'repos': uRes});
+        } else {
+          console.log(err);
+        }
+      });
+    }
+  });
+});
 
-//   github.authenticate({
-//       type: "oauth",
-//       token: "c4d8988f8af0ed16c2bc25d97f8418305220bcd2"
-//   });
-
-//   github.issues.repoIssues({
-//     user: req.params.user,
-//     repo: req.params.repo
-//   }, function(err, gRes) {
-//     res.send({
-//       'issues': gRes
-//     });
-//   });
-
-// });
-
-// app.get('/api/issues', function(req, res) {
-
-//   // github.authenticate({
-//   //   type: "oauth",
-//   //   token: "1024b404ef0d23b03647046337a58b5356549338"
-//   // });
-
-//   github.issues.repoIssues({
-//     user: req.query.user,
-//     repo: req.query.repo,
-//     state: req.query.state
-//   }, function(err, gRes) {
-//     res.send({
-//       'issues': gRes
-//     });
-//     console.log(err);
-//   });
-
-// });
+app.get('/api/issues', function(req, res) {
+  github.issues.repoIssues({
+    user: req.query.user,
+    repo: req.query.repo,
+    state: req.query.state
+  }, function(err, gRes) {
+    res.send({
+      'issues': gRes
+    });
+    console.log(err);
+  });
+});
 
 
 
