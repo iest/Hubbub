@@ -4,10 +4,14 @@ App = Ember.Application.create({
 
 App.Router.map(function() {
   this.resource('user', {
-    path: '/:login'
+    path: ':login'
   }, function() {
     this.resource('issues', {
-      path: '/:name'
+      path: ':name'
+    }, function() {
+      this.resource('issue', {
+        path: ':number'
+      });
     });
   });
 });

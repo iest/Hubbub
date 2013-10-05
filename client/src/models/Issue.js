@@ -19,5 +19,7 @@ App.Issue = DS.Model.extend({
   updatet_at: DS.attr(),
   closed_at: DS.attr(),
 
-  body: DS.attr()
+  body: DS.attr(),
+
+  repo: DS.belongsTo('repo')
 });

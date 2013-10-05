@@ -1,6 +1,14 @@
 <h1>Issues</h1>
-{{#link-to 'user' controller.user}}User{{/link-to}}
-{{#each model}}
-    <h1>{{title}}</h1>
-    <p>{{body}}</p>
-{{/each}}
+{{#link-to 'user' controller.user}}Repo list{{/link-to}}
+
+<ul>
+    {{#each model}}
+        <li>
+            {{#link-to 'issue' controller.user controller.repo this}}
+                {{title}}
+            {{/link-to}}
+        </li>
+    {{/each}}
+</ul>
+
+{{outlet}}

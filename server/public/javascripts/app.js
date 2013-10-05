@@ -4,10 +4,14 @@
 
 App.Router.map(function() {
   this.resource('user', {
-    path: '/:login'
+    path: ':login'
   }, function() {
     this.resource('issues', {
-      path: '/:name'
+      path: ':name'
+    }, function() {
+      this.resource('issue', {
+        path: ':number'
+      });
     });
   });
 });
@@ -28,6 +32,15 @@ App.ApplicationController = Ember.Controller.extend({
 App.IndexRoute = Ember.Route.extend({
 
 });
+App.IssueRoute = Ember.Route.extend({
+  // afterModel: function(params) {
+  //   var issue = this.get('store')
+  //     .find('issue', params.number);
+
+  //   this.controllerFor('issue').set('model', issue);
+
+  // }
+});
 App.IssuesRoute = Ember.Route.extend({
   model: function(params) {
     var user = this.modelFor('user')
@@ -42,10 +55,12 @@ App.IssuesRoute = Ember.Route.extend({
   },
 
   setupController: function(controller, model) {
-    var user = this.modelFor('user')
-      .get('query.user');
+    
+    var user = model.get('query.user'),
+        repo = model.get('query.repo');
 
     controller.set('user', user);
+    controller.set('repo', repo);
     controller.set('model', model);
   },
 
@@ -98,7 +113,9 @@ App.Issue = DS.Model.extend({
   updatet_at: DS.attr(),
   closed_at: DS.attr(),
 
-  body: DS.attr()
+  body: DS.attr(),
+
+  repo: DS.belongsTo('repo')
 });
 App.Repo = DS.Model.extend({
   archive_url: DS.attr(),
@@ -162,7 +179,10 @@ App.Repo = DS.Model.extend({
   updated_at: DS.attr(),
   url: DS.attr(),
   watchers: DS.attr(),
-  watchers_count: DS.attr()
+  watchers_count: DS.attr(),
+  
+  user: DS.belongsTo('user'),
+  issues: DS.hasMany('issue')
 });
 App.User = DS.Model.extend({
   login: DS.attr(),
@@ -179,5 +199,7 @@ App.User = DS.Model.extend({
   email: DS.attr(),
   public_repos: DS.attr(),
   created_at: DS.attr(),
-  updated_at: DS.attr()
+  updated_at: DS.attr(),
+  
+  repos: DS.hasMany('repo')
 });

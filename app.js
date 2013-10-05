@@ -134,7 +134,9 @@ app.get('/api/repos', function(req, res) {
 
     // If we get a response, we dealing with an org
     if (oRes) {
-      res.send({'repos': oRes});
+      res.send({
+        'repos': oRes
+      });
     } else {
       console.log(err);
       // else we're dealing with a user
@@ -142,7 +144,9 @@ app.get('/api/repos', function(req, res) {
         user: req.query.user
       }, function(err, uRes) {
         if (uRes) {
-          res.send({'repos': uRes});
+          res.send({
+            'repos': uRes
+          });
         } else {
           console.log(err);
         }
@@ -163,6 +167,16 @@ app.get('/api/issues', function(req, res) {
     console.log(err);
   });
 });
+
+// app.get('/api/isses/:number', function(req, res) {
+//   github.issues.getComments({
+//     user: req.query.user,
+//     repo: req.query.repo,
+//     number: 
+//   }, function(err, cRes) {
+
+//   });
+// });
 
 
 

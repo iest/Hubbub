@@ -13,5 +13,7 @@ App.User = DS.Model.extend({
   email: DS.attr(),
   public_repos: DS.attr(),
   created_at: DS.attr(),
-  updated_at: DS.attr()
+  updated_at: DS.attr(),
+  
+  repos: DS.hasMany('repo')
 });

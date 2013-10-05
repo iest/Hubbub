@@ -12,10 +12,12 @@ App.IssuesRoute = Ember.Route.extend({
   },
 
   setupController: function(controller, model) {
-    var user = this.modelFor('user')
-      .get('query.user');
+    
+    var user = model.get('query.user'),
+        repo = model.get('query.repo');
 
     controller.set('user', user);
+    controller.set('repo', repo);
     controller.set('model', model);
   },
 

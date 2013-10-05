@@ -60,5 +60,8 @@ App.Repo = DS.Model.extend({
   updated_at: DS.attr(),
   url: DS.attr(),
   watchers: DS.attr(),
-  watchers_count: DS.attr()
+  watchers_count: DS.attr(),
+  
+  user: DS.belongsTo('user'),
+  issues: DS.hasMany('issue')
 });
